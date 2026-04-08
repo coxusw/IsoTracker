@@ -4,85 +4,79 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IsoTrack</title>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
     :root{
       --bg:#0d1117;
-      --bg2:#111827;
-      --panel:#161b22;
-      --panel2:#1f2937;
+      --panel:#151c25;
       --card:#18212c;
-      --border:rgba(255,255,255,.08);
+      --line:rgba(255,255,255,.08);
       --text:#f3f4f6;
-      --muted:#b8c0cc;
-      --gold:#d4a84f;
-      --gold-2:#f0c46b;
-      --green:#28c76f;
-      --yellow:#f4b942;
-      --red:#ea5455;
-      --shadow:0 12px 30px rgba(0,0,0,.28);
-      --radius:18px;
+      --muted:#b7c0cb;
+      --gold:#c9a45c;
+      --gold2:#e8c985;
+      --green:#2bc56d;
+      --yellow:#f1bd4d;
+      --red:#df5a5a;
+      --shadow:0 12px 28px rgba(0,0,0,.25);
     }
 
     *{box-sizing:border-box}
-
+    html,body{margin:0;padding:0}
     body{
-      margin:0;
       font-family:Arial, Helvetica, sans-serif;
       color:var(--text);
       background:
-        radial-gradient(circle at top left, rgba(212,168,79,.10), transparent 28%),
-        radial-gradient(circle at top right, rgba(53,94,59,.12), transparent 22%),
-        linear-gradient(180deg, #0b0f14 0%, #101722 100%);
+        radial-gradient(circle at top left, rgba(201,164,92,.12), transparent 22%),
+        radial-gradient(circle at top right, rgba(44,92,58,.12), transparent 20%),
+        linear-gradient(180deg, #0b1118 0%, #101723 100%);
       min-height:100vh;
     }
 
     .wrap{
-      max-width:1100px;
-      margin:0 auto;
-      padding:18px 14px 90px;
+      width:min(1220px, calc(100% - 24px));
+      margin:18px auto 90px;
     }
 
     .hero{
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:22px 20px;
       background:
-        linear-gradient(135deg, rgba(212,168,79,.14), rgba(212,168,79,.03)),
-        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-      border:1px solid var(--border);
-      border-radius:24px;
-      padding:22px 18px;
+        linear-gradient(135deg, rgba(201,164,92,.16), rgba(201,164,92,.03)),
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
       box-shadow:var(--shadow);
-      margin-bottom:16px;
     }
 
-    .brand{
+    .hero-top{
       display:flex;
-      align-items:center;
       justify-content:space-between;
-      gap:16px;
+      align-items:center;
+      gap:12px;
       flex-wrap:wrap;
     }
 
-    .brand-left h1{
+    .hero h1{
       margin:0;
-      font-size:clamp(28px, 4vw, 42px);
+      font-size:clamp(28px, 5vw, 44px);
       line-height:1;
-      letter-spacing:.4px;
     }
 
-    .brand-left p{
+    .hero p{
       margin:8px 0 0;
       color:var(--muted);
       font-size:15px;
     }
 
-    .brand-pill{
+    .pill{
       display:inline-flex;
       align-items:center;
       gap:8px;
-      padding:9px 14px;
       border-radius:999px;
-      border:1px solid rgba(212,168,79,.28);
-      background:rgba(212,168,79,.08);
-      color:var(--gold-2);
+      padding:9px 14px;
+      border:1px solid rgba(201,164,92,.28);
+      background:rgba(201,164,92,.08);
+      color:var(--gold2);
       font-weight:700;
       font-size:13px;
       white-space:nowrap;
@@ -92,55 +86,57 @@
       display:grid;
       grid-template-columns:repeat(4,1fr);
       gap:10px;
-      margin:16px 0 18px;
+      margin:16px 0;
     }
 
     .tab{
       appearance:none;
       border:none;
       cursor:pointer;
-      padding:14px 10px;
       border-radius:16px;
-      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      padding:14px 10px;
+      font-weight:800;
       color:var(--text);
-      font-weight:700;
-      border:1px solid var(--border);
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
       box-shadow:var(--shadow);
       transition:.18s ease;
     }
 
     .tab:hover{transform:translateY(-1px)}
     .tab.active{
-      background:linear-gradient(180deg, rgba(212,168,79,.22), rgba(212,168,79,.10));
-      border-color:rgba(212,168,79,.45);
-      color:#fff5dd;
+      background:linear-gradient(180deg, rgba(201,164,92,.25), rgba(201,164,92,.10));
+      border-color:rgba(201,164,92,.42);
+      color:#fff3d8;
     }
 
     .panel{
       background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
-      border:1px solid var(--border);
-      border-radius:22px;
+      border:1px solid var(--line);
+      border-radius:24px;
       padding:16px;
       box-shadow:var(--shadow);
     }
 
     .section-title{
-      margin:0 0 14px;
-      font-size:22px;
+      margin:0 0 8px;
+      font-size:24px;
     }
 
     .subtext{
-      margin:-4px 0 16px;
+      margin:0 0 16px;
       color:var(--muted);
       font-size:14px;
     }
 
-    .toolbar{
+    .toolbar,.actions{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
-      margin-bottom:14px;
     }
+
+    .toolbar{margin-bottom:14px}
+    .actions{margin-top:16px}
 
     .btn{
       appearance:none;
@@ -148,44 +144,41 @@
       cursor:pointer;
       border-radius:14px;
       padding:11px 14px;
-      font-weight:700;
-      color:white;
-      background:linear-gradient(180deg, #2b3441, #1c2530);
+      font-weight:800;
+      color:#fff;
       border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, #2b3644, #1c2430);
       box-shadow:var(--shadow);
       transition:.18s ease;
     }
 
     .btn:hover{transform:translateY(-1px)}
     .btn-primary{
-      background:linear-gradient(180deg, #e0b860, #b88932);
-      color:#1a1205;
-      border:1px solid rgba(255,215,140,.45);
+      background:linear-gradient(180deg, #e0bc74, #b88835);
+      color:#1d1305;
+      border-color:rgba(255,220,160,.38);
     }
-
     .btn-danger{
-      background:linear-gradient(180deg, #b34343, #7d2727);
+      background:linear-gradient(180deg, #b94b4b, #7a2a2a);
     }
-
     .btn-ghost{
-      background:rgba(255,255,255,.04);
+      background:rgba(255,255,255,.05);
     }
 
     .grid{
       display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
       gap:14px;
     }
 
     .card{
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:14px;
       background:
         linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)),
         linear-gradient(180deg, rgba(255,255,255,.02), transparent);
-      border:1px solid var(--border);
-      border-radius:20px;
-      padding:14px;
       box-shadow:var(--shadow);
-      overflow:hidden;
     }
 
     .card.clickable{cursor:pointer}
@@ -195,7 +188,7 @@
     .status-yellow{border-left:6px solid var(--yellow)}
     .status-red{border-left:6px solid var(--red)}
 
-    .card-header{
+    .card-head{
       display:flex;
       justify-content:space-between;
       gap:10px;
@@ -209,42 +202,33 @@
       line-height:1.15;
     }
 
+    .muted{color:var(--muted)}
+
     .badge{
       display:inline-flex;
       align-items:center;
-      padding:6px 10px;
+      justify-content:center;
       border-radius:999px;
+      padding:6px 10px;
       font-size:12px;
-      font-weight:700;
-      background:rgba(255,255,255,.07);
-      border:1px solid rgba(255,255,255,.08);
-      color:var(--muted);
+      font-weight:800;
       white-space:nowrap;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.06);
+      color:var(--muted);
     }
-
-    .badge.green{background:rgba(40,199,111,.12); color:#92efbb; border-color:rgba(40,199,111,.25)}
-    .badge.yellow{background:rgba(244,185,66,.12); color:#ffd77c; border-color:rgba(244,185,66,.25)}
-    .badge.red{background:rgba(234,84,85,.12); color:#ffadad; border-color:rgba(234,84,85,.25)}
+    .badge.green{background:rgba(43,197,109,.12); color:#99efbe; border-color:rgba(43,197,109,.2)}
+    .badge.yellow{background:rgba(241,189,77,.12); color:#ffdd8e; border-color:rgba(241,189,77,.2)}
+    .badge.red{background:rgba(223,90,90,.12); color:#ffb3b3; border-color:rgba(223,90,90,.2)}
 
     .meta{
       display:grid;
       gap:7px;
-      color:var(--muted);
-      font-size:14px;
       margin-top:10px;
+      font-size:14px;
+      color:var(--muted);
     }
-
-    .meta strong{
-      color:var(--text);
-      font-weight:700;
-    }
-
-    .actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:14px;
-    }
+    .meta strong{color:var(--text)}
 
     .thumb{
       width:100%;
@@ -252,148 +236,304 @@
       object-fit:cover;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.08);
-      margin:10px 0 4px;
+      background:#0f141a;
       display:block;
-      background:#0f141b;
+      margin:10px 0 2px;
     }
 
     label{
       display:block;
       margin:10px 0 6px;
       font-size:14px;
-      color:#e5e7eb;
-      font-weight:700;
+      font-weight:800;
+      color:#eef2f7;
     }
 
-    input, textarea, select{
+    input,textarea,select{
       width:100%;
-      padding:12px 13px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.08);
-      background:#0f1722;
+      background:#0e1620;
       color:var(--text);
-      outline:none;
+      padding:12px 13px;
       font-size:15px;
+      outline:none;
     }
 
-    textarea{
-      min-height:110px;
-      resize:vertical;
+    input[type="checkbox"]{
+      width:auto;
+      transform:scale(1.2);
+      margin-right:8px;
     }
 
-    input::placeholder, textarea::placeholder{
-      color:#8d99a8;
-    }
+    textarea{min-height:108px;resize:vertical}
+    input::placeholder,textarea::placeholder{color:#8b96a4}
 
     .form-grid{
       display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+      grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
       gap:12px;
     }
 
     .empty{
       text-align:center;
-      padding:32px 18px;
-      color:var(--muted);
-      border:1px dashed rgba(255,255,255,.12);
+      padding:34px 18px;
       border-radius:20px;
+      border:1px dashed rgba(255,255,255,.14);
+      color:var(--muted);
       background:rgba(255,255,255,.02);
     }
 
-    .type-row{
+    .split{
       display:grid;
-      grid-template-columns:1.1fr .8fr .8fr;
-      gap:10px;
-      align-items:end;
-      margin-bottom:12px;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
     }
 
-    .preview-sheet{
+    .info-note{
+      font-size:13px;
+      color:#fff1cf;
+      background:rgba(201,164,92,.12);
+      border:1px solid rgba(201,164,92,.22);
+      border-radius:14px;
+      padding:10px 12px;
+      margin:0 0 14px;
+    }
+
+    .sheet-wrap{
       margin-top:18px;
-      background:linear-gradient(180deg, #111722, #182331);
-      border-radius:22px;
-      border:1px solid rgba(255,255,255,.08);
+      padding:20px;
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--line);
+      border-radius:24px;
+      overflow:auto;
+    }
+
+    .sheet{
+      width:900px;
+      margin:0 auto;
       overflow:hidden;
+      border-radius:18px;
+      box-shadow:0 10px 30px rgba(0,0,0,.18);
     }
 
-    .preview-head{
-      padding:22px 18px;
-      border-bottom:1px solid rgba(255,255,255,.08);
-      background:
-        linear-gradient(135deg, rgba(212,168,79,.22), rgba(212,168,79,.06)),
-        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+    .sheet-header{
+      padding:26px 28px 18px;
+      text-align:center;
     }
 
-    .preview-head h2{
-      margin:0;
-      font-size:28px;
-    }
-
-    .preview-head p{
-      margin:6px 0 0;
-      color:#d8dee8;
-    }
-
-    .preview-logo{
+    .sheet-logo{
       max-width:120px;
       max-height:120px;
       object-fit:contain;
-      border-radius:12px;
       display:block;
-      margin-bottom:12px;
-      background:rgba(255,255,255,.04);
-      padding:8px;
+      margin:0 auto 14px;
     }
 
-    .preview-body{
-      padding:16px;
+    .sheet-title{
+      margin:0;
+      font-size:44px;
+      line-height:1.02;
+      font-weight:800;
     }
 
-    .price-item{
-      display:flex;
-      justify-content:space-between;
-      gap:18px;
-      padding:12px 0;
-      border-bottom:1px solid rgba(255,255,255,.07);
+    .sheet-sub{
+      margin:6px 0 0;
+      font-size:18px;
     }
 
-    .price-item:last-child{border-bottom:none}
+    .sheet-banner{
+      margin:16px 28px 12px;
+      text-align:center;
+      padding:10px 14px;
+      font-weight:800;
+      border-radius:999px;
+      font-size:16px;
+    }
 
-    .muted{color:var(--muted)}
-    .hidden{display:none}
+    .sheet-body{
+      padding:6px 28px 30px;
+    }
 
-    .top-note{
-      margin:0 0 12px;
-      color:#fff1ce;
-      font-size:13px;
-      background:rgba(212,168,79,.12);
-      border:1px solid rgba(212,168,79,.22);
-      border-radius:14px;
+    .sheet-section{
+      margin-top:18px;
+    }
+
+    .sheet-section-title{
+      font-weight:800;
+      font-size:18px;
+      text-align:center;
       padding:10px 12px;
+      border-radius:12px 12px 0 0;
     }
 
-    @media (max-width:700px){
+    .sheet-table{
+      border:1px solid rgba(0,0,0,.12);
+      border-top:none;
+      overflow:hidden;
+      border-radius:0 0 12px 12px;
+    }
+
+    .sheet-row{
+      display:grid;
+      grid-template-columns:1.45fr .7fr .65fr;
+      align-items:center;
+      font-size:18px;
+      min-height:48px;
+    }
+
+    .sheet-row > div{
+      padding:10px 14px;
+      border-right:1px solid rgba(0,0,0,.12);
+    }
+
+    .sheet-row > div:last-child{border-right:none}
+    .sheet-row + .sheet-row{border-top:1px solid rgba(0,0,0,.10)}
+
+    .sheet-footer{
+      text-align:center;
+      padding:14px 28px 26px;
+      font-size:13px;
+      opacity:.82;
+    }
+
+    .theme-botanical{
+      background:#f4f1e8;
+      color:#213528;
+    }
+    .theme-botanical .sheet-header{
+      background:
+        radial-gradient(circle at top left, rgba(197,164,91,.22), transparent 30%),
+        linear-gradient(135deg, #f3ead7 0%, #dfe7d4 100%);
+      border-bottom:1px solid rgba(33,53,40,.12);
+    }
+    .theme-botanical .sheet-banner{background:#295a3a;color:#fff7e4;}
+    .theme-botanical .sheet-section-title{background:#295a3a;color:#fff7e4;}
+    .theme-botanical .sheet-table{background:#f9f7f0;border-color:rgba(33,53,40,.18);}
+    .theme-botanical .sheet-row:nth-child(even){background:#eef2e9;}
+
+    .theme-parchment{
+      background:#efe2c9;
+      color:#1f160a;
+      border:4px solid #1d140a;
+      border-radius:0;
+      position:relative;
+    }
+    .theme-parchment:before{
+      content:"";
+      position:absolute;
+      inset:14px;
+      border:2px solid rgba(33,20,10,.75);
+      pointer-events:none;
+    }
+    .theme-parchment .sheet-header{
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,.22), transparent 45%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.02));
+    }
+    .theme-parchment .sheet-banner{background:#1d140a;color:#f6e7c7;}
+    .theme-parchment .sheet-section-title{
+      background:transparent;color:#1d140a;text-decoration:underline;font-size:17px;padding-bottom:6px;
+    }
+    .theme-parchment .sheet-table{border:none;background:transparent;}
+    .theme-parchment .sheet-row{
+      grid-template-columns:1.5fr .7fr .65fr;
+      font-size:20px;
+    }
+    .theme-parchment .sheet-row,
+    .theme-parchment .sheet-row + .sheet-row{border-top:none;}
+    .theme-parchment .sheet-row > div{border-right:none;padding:6px 10px;}
+
+    .theme-luxe{background:#101820;color:#f3efe6;}
+    .theme-luxe .sheet-header{
+      background:
+        radial-gradient(circle at top left, rgba(201,164,92,.25), transparent 28%),
+        linear-gradient(135deg, #111820 0%, #1c2a38 100%);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .theme-luxe .sheet-banner{background:linear-gradient(90deg, #c9a45c, #e7ca8c);color:#151006;}
+    .theme-luxe .sheet-section-title{
+      background:linear-gradient(90deg, #233342, #18222d);
+      color:#f8e9c6;
+      border:1px solid rgba(201,164,92,.24);
+      border-bottom:none;
+    }
+    .theme-luxe .sheet-table{background:#13202b;border-color:rgba(255,255,255,.08);}
+    .theme-luxe .sheet-row{color:#edf1f5;}
+    .theme-luxe .sheet-row:nth-child(even){background:#172733;}
+
+    .right{text-align:right}
+    .center{text-align:center}
+    .checkbox-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin-bottom:8px;
+    }
+    .price-builder-row{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px;
+      margin-bottom:12px;
+      background:rgba(255,255,255,.02);
+    }
+    .section-manager{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px;
+      margin-bottom:16px;
+      background:rgba(255,255,255,.02);
+    }
+    .section-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      margin:0 8px 8px 0;
+      font-size:13px;
+      font-weight:700;
+    }
+    .mini-btn{
+      border:none;
+      background:transparent;
+      color:#ffb3b3;
+      cursor:pointer;
+      font-weight:800;
+      font-size:14px;
+    }
+
+    @media (max-width:900px){
       .tabs{grid-template-columns:repeat(2,1fr)}
-      .type-row{grid-template-columns:1fr}
+      .split{grid-template-columns:1fr}
+      .sheet{width:760px}
+    }
+    @media (max-width:700px){
+      .sheet-wrap{padding:10px}
+      .sheet{width:690px}
+      .sheet-title{font-size:34px}
+      .sheet-row{font-size:16px}
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <section class="hero">
-      <div class="brand">
-        <div class="brand-left">
+      <div class="hero-top">
+        <div>
           <h1>IsoTrack</h1>
-          <p>Premium colony tracking for isopod keepers.</p>
+          <p>Colony tracking, botanicals inventory, and premium vendor price sheets.</p>
         </div>
-        <div class="brand-pill">Colony Care • Population • Price Sheets</div>
+        <div class="pill">Colonies • Population • Botanicals • Price Sheets</div>
       </div>
     </section>
 
     <div class="tabs">
       <button class="tab active" data-tab="colonies">Colonies</button>
-      <button class="tab" data-tab="husbandry">Husbandry</button>
       <button class="tab" data-tab="population">Population</button>
+      <button class="tab" data-tab="botanicals">Botanicals</button>
       <button class="tab" data-tab="price">Price Sheet</button>
     </div>
 
@@ -403,47 +543,65 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "isotrackData_v2";
-    const SETTINGS_KEY = "isotrackSettings_v2";
-    const PRICE_KEY = "isotrackPrices_v2";
+    const COLONY_KEY = "isotrack_colonies_v5";
+    const BOTANICAL_KEY = "isotrack_botanicals_v5";
+    const SETTINGS_KEY = "isotrack_settings_v5";
+    const PRICE_KEY = "isotrack_prices_v5";
+    const BOT_PRICE_KEY = "isotrack_botanical_prices_v5";
+    const SECTION_KEY = "isotrack_sections_v5";
 
-    let colonies = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    let settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{"businessName":"Crested Critters","logoUri":"","theme":"botanical"}');
+    let colonies = JSON.parse(localStorage.getItem(COLONY_KEY) || "[]");
+    let botanicals = JSON.parse(localStorage.getItem(BOTANICAL_KEY) || "[]");
+    let settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{"businessName":"Crested Critters","logoUri":"","theme":"botanical","tagline":"Isopods & Botanicals","promoText":"BUY ANY 2 ISOPODS — GET $5 OFF","footerNote":"*Availability may vary*"}');
     let priceData = JSON.parse(localStorage.getItem(PRICE_KEY) || "{}");
-    let activeTab = "colonies";
+    let botanicalPriceData = JSON.parse(localStorage.getItem(BOT_PRICE_KEY) || "{}");
+    let priceSections = JSON.parse(localStorage.getItem(SECTION_KEY) || '["Isopods","Springtails","Millipedes","Beetles","Botanicals","Exotic","Mid Tier","Beginner"]');
 
-    function saveColonies(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(colonies)); }
+    function saveColonies(){ localStorage.setItem(COLONY_KEY, JSON.stringify(colonies)); }
+    function saveBotanicals(){ localStorage.setItem(BOTANICAL_KEY, JSON.stringify(botanicals)); }
     function saveSettings(){ localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
     function savePrices(){ localStorage.setItem(PRICE_KEY, JSON.stringify(priceData)); }
+    function saveBotanicalPrices(){ localStorage.setItem(BOT_PRICE_KEY, JSON.stringify(botanicalPriceData)); }
+    function saveSections(){ localStorage.setItem(SECTION_KEY, JSON.stringify(priceSections)); }
+    function saveAll(){ saveColonies(); saveBotanicals(); saveSettings(); savePrices(); saveBotanicalPrices(); saveSections(); }
 
-    function formatDate(d){
-      if(!d) return "";
-      const dt = new Date(d);
-      const m = String(dt.getMonth()+1).padStart(2,"0");
-      const day = String(dt.getDate()).padStart(2,"0");
-      const y = dt.getFullYear();
+    function app(html){ document.getElementById("app").innerHTML = html; }
+
+    function esc(text){
+      return (text || "").replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    function formatDate(input){
+      if(!input) return "";
+      const d = new Date(input);
+      if(isNaN(d)) return "";
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      const y = d.getFullYear();
       return `${m}/${day}/${y}`;
     }
 
-    function todayString(){
-      return formatDate(new Date());
-    }
+    function todayString(){ return formatDate(new Date()); }
 
     function parseDateString(str){
       if(!str) return null;
       const parts = str.split("/");
       if(parts.length !== 3) return null;
       const [m,d,y] = parts.map(Number);
-      return new Date(y, m-1, d);
+      if(!m || !d || !y) return null;
+      return new Date(y, m - 1, d);
     }
 
     function daysSince(dateStr){
       if(!dateStr) return 999999;
       const dt = parseDateString(dateStr);
       if(!dt) return 999999;
-      const now = new Date();
-      const diff = now.setHours(0,0,0,0) - dt.setHours(0,0,0,0);
-      return Math.floor(diff / (1000 * 60 * 60 * 24));
+      const a = new Date();
+      a.setHours(0,0,0,0);
+      dt.setHours(0,0,0,0);
+      return Math.floor((a - dt) / 86400000);
     }
 
     function getStatus(days){
@@ -452,7 +610,7 @@
       return "red";
     }
 
-    function statusLabel(days){
+    function statusText(days){
       if(days <= 3) return "Checked recently";
       if(days <= 10) return "Needs attention soon";
       return "Needs checked";
@@ -471,26 +629,33 @@
         return;
       }
 
-      let newest = dates[0];
-      dates.forEach(d => {
-        if(parseDateString(d) > parseDateString(newest)) newest = d;
-      });
-      colony.lastHusbandry = newest;
+      let latest = dates[0];
+      for(const d of dates){
+        if(parseDateString(d) > parseDateString(latest)) latest = d;
+      }
+      colony.lastHusbandry = latest;
     }
 
     function uniqueTypes(){
-      return [...new Set(colonies.map(c => c.typeName.trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+      return [...new Set(colonies.map(c => (c.typeName || "").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+    }
+
+    function uniqueCategories(){
+      const fromColonies = colonies.map(c => (c.category || "").trim()).filter(Boolean);
+      return [...new Set(fromColonies)].sort((a,b)=>a.localeCompare(b));
+    }
+
+    function slug(str){
+      return (str || "").toLowerCase().replace(/[^a-z0-9]+/g, "_");
     }
 
     function setTab(tab){
-      activeTab = tab;
       document.querySelectorAll(".tab").forEach(btn => {
         btn.classList.toggle("active", btn.dataset.tab === tab);
       });
-
       if(tab === "colonies") renderColonies();
-      if(tab === "husbandry") renderHusbandry();
       if(tab === "population") renderPopulation();
+      if(tab === "botanicals") renderBotanicals();
       if(tab === "price") renderPriceSheet();
     }
 
@@ -498,82 +663,134 @@
       btn.addEventListener("click", () => setTab(btn.dataset.tab));
     });
 
-    function app(html){
-      document.getElementById("app").innerHTML = html;
+    function exportProfile(){
+      const profile = {
+        version: 2,
+        exportedAt: new Date().toISOString(),
+        data: { colonies, botanicals, settings, priceData, botanicalPriceData, priceSections }
+      };
+      const blob = new Blob([JSON.stringify(profile, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "isotrack-profile-backup.json";
+      link.click();
+      URL.revokeObjectURL(url);
     }
 
-    function escapeHtml(text){
-      return (text || "").replace(/[&<>"']/g, m => ({
-        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
-      }[m]));
+    function importProfileFromInput(input){
+      const file = input.files && input.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e){
+        try{
+          const parsed = JSON.parse(e.target.result);
+          if(!parsed || !parsed.data){ alert("Invalid backup file."); return; }
+          colonies = Array.isArray(parsed.data.colonies) ? parsed.data.colonies : [];
+          botanicals = Array.isArray(parsed.data.botanicals) ? parsed.data.botanicals : [];
+          settings = parsed.data.settings || settings;
+          priceData = parsed.data.priceData || {};
+          botanicalPriceData = parsed.data.botanicalPriceData || {};
+          priceSections = Array.isArray(parsed.data.priceSections) ? parsed.data.priceSections : priceSections;
+          saveAll();
+          alert("Profile imported successfully.");
+          renderColonies();
+        } catch(err){
+          alert("Could not import backup file.");
+        }
+      };
+      reader.readAsText(file);
     }
 
     function renderColonies(){
+      const sorted = colonies.slice().sort((a,b) => daysSince(b.lastHusbandry) - daysSince(a.lastHusbandry));
       let html = `
         <h2 class="section-title">Colonies</h2>
-        <p class="subtext">Track every colony, update care quickly, and keep your collection organized.</p>
+        <p class="subtext">Your main working list. Oldest updated colonies appear first so you can see what needs attention.</p>
         <div class="toolbar">
-          <button class="btn btn-primary" onclick="showAddForm()">+ Add Colony</button>
+          <button class="btn btn-primary" onclick="showAddColonyForm()">+ Add Colony</button>
+          <button class="btn btn-ghost" onclick="exportProfile()">Export Profile Backup</button>
+          <label class="btn btn-ghost" style="display:inline-flex;align-items:center;justify-content:center;">
+            Import Profile Backup
+            <input type="file" accept=".json,application/json" style="display:none" onchange="importProfileFromInput(this)">
+          </label>
           <button class="btn btn-ghost" onclick="loadDemoData()">Load Demo Data</button>
-          <button class="btn btn-ghost" onclick="clearAllData()">Clear All</button>
+          <button class="btn btn-ghost" onclick="clearAllData()">Clear All Data</button>
         </div>
       `;
 
-      if(!colonies.length){
-        html += `<div class="empty">No colonies yet. Add your first colony to start tracking.</div>`;
+      if(!sorted.length){
+        html += `<div class="empty">No colonies yet. Add your first colony to get started.</div>`;
         return app(html);
       }
 
       html += `<div class="grid">`;
-      colonies
-        .slice()
-        .sort((a,b)=>a.colonyName.localeCompare(b.colonyName))
-        .forEach((colony, index) => {
-          const days = daysSince(colony.lastHusbandry);
-          const status = getStatus(days);
-          html += `
-            <div class="card clickable status-${status}" onclick="openColony(${index})">
-              <div class="card-header">
-                <div>
-                  <h3 class="card-title">${escapeHtml(colony.colonyName)}</h3>
-                  <div class="muted">${escapeHtml(colony.typeName)}</div>
-                </div>
-                <span class="badge ${status}">${colony.lastHusbandry ? colony.lastHusbandry : "Never checked"}</span>
-              </div>
-              ${colony.typeImageUri ? `<img class="thumb" src="${colony.typeImageUri}" alt="">` : ""}
-              <div class="meta">
-                <div><strong>Population:</strong> ${Number(colony.population) || 0}</div>
-                <div><strong>Date added:</strong> ${colony.dateAdded || "-"}</div>
-                <div><strong>Last husbandry:</strong> ${colony.lastHusbandry || "Never"}</div>
-              </div>
-            </div>
-          `;
-        });
-      html += `</div>`;
+      sorted.forEach(c => {
+        const index = colonies.findIndex(x => x.colonyName === c.colonyName);
+        const days = daysSince(c.lastHusbandry);
+        const status = getStatus(days);
 
+        html += `
+          <div class="card clickable status-${status}" onclick="openColony(${index})">
+            <div class="card-head">
+              <div>
+                <h3 class="card-title">${esc(c.colonyName)}</h3>
+                <div class="muted">${esc(c.typeName)}</div>
+              </div>
+              <span class="badge ${status}">${statusText(days)}</span>
+            </div>
+            ${c.typeImageUri ? `<img class="thumb" src="${c.typeImageUri}" alt="">` : ""}
+            <div class="meta">
+              <div><strong>Category:</strong> ${esc(c.category || "-")}</div>
+              <div><strong>Population:</strong> ${Number(c.population) || 0}</div>
+              <div><strong>Date added:</strong> ${c.dateAdded || "-"}</div>
+              <div><strong>Last updated:</strong> ${c.lastHusbandry || "Never"}</div>
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
       app(html);
     }
 
-    function showAddForm(){
+    function showAddColonyForm(){
+      const knownCats = ["Isopods","Springtails","Millipedes","Beetles", ...uniqueCategories()]
+        .filter((v, i, a) => v && a.indexOf(v) === i);
+
       app(`
         <h2 class="section-title">Add Colony</h2>
-        <p class="subtext">Create a new colony record. Colony names must be unique.</p>
+        <p class="subtext">Colony names must be unique. Type names can repeat.</p>
+
         <div class="form-grid">
           <div>
             <label>Colony Name</label>
-            <input id="colonyName" placeholder="Example: Red Panda Bin 1">
+            <input id="colonyName" placeholder="Red Panda Bin 1">
           </div>
           <div>
             <label>Type Name</label>
-            <input id="typeName" placeholder="Example: Red Panda">
+            <input id="typeName" placeholder="Red Panda">
           </div>
           <div>
             <label>Date Added</label>
-            <input id="dateAdded" placeholder="mm/dd/yyyy" value="${todayString()}">
+            <input id="dateAdded" value="${todayString()}" placeholder="mm/dd/yyyy">
           </div>
           <div>
             <label>Population</label>
             <input id="population" type="number" min="0" step="1" placeholder="0">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label>Category</label>
+            <select id="categorySelect" onchange="toggleCustomCategory()">
+              ${knownCats.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join("")}
+              <option value="__custom__">Custom</option>
+            </select>
+          </div>
+          <div id="customCategoryWrap" style="display:none;">
+            <label>Custom Category</label>
+            <input id="customCategory" placeholder="Example: Roaches">
           </div>
         </div>
 
@@ -609,46 +826,57 @@
       `);
     }
 
+    function toggleCustomCategory(){
+      const sel = document.getElementById("categorySelect");
+      const wrap = document.getElementById("customCategoryWrap");
+      if(sel && wrap){
+        wrap.style.display = sel.value === "__custom__" ? "block" : "none";
+      }
+    }
+
+    function getChosenCategory(prefix=""){
+      const sel = document.getElementById(prefix + "categorySelect");
+      if(!sel) return "";
+      if(sel.value === "__custom__"){
+        return (document.getElementById(prefix + "customCategory")?.value || "").trim();
+      }
+      return sel.value.trim();
+    }
+
     function saveNewColony(){
       const colonyName = document.getElementById("colonyName").value.trim();
       const typeName = document.getElementById("typeName").value.trim();
+      const category = getChosenCategory("");
 
-      if(!colonyName){
-        alert("Colony name is required.");
-        return;
-      }
-
-      if(!typeName){
-        alert("Type name is required.");
-        return;
-      }
-
+      if(!colonyName){ alert("Colony name is required."); return; }
+      if(!typeName){ alert("Type name is required."); return; }
+      if(!category){ alert("Category is required."); return; }
       if(colonies.some(c => c.colonyName.toLowerCase() === colonyName.toLowerCase())){
         alert("Colony name already in use. Please choose a different colony name.");
         return;
       }
 
-      const file = document.getElementById("typeImage").files[0];
-
       const colony = {
         colonyName,
         typeName,
-        typeImageUri: "",
+        category,
+        typeImageUri:"",
         dateAdded: document.getElementById("dateAdded").value.trim() || todayString(),
         population: Math.max(0, parseInt(document.getElementById("population").value || "0", 10)),
         lastMisting: document.getElementById("lastMisting").value.trim(),
         lastBotanicalsCheck: document.getElementById("lastBotanicalsCheck").value.trim(),
         lastSubstrateCheck: document.getElementById("lastSubstrateCheck").value.trim(),
         lastSupplementalFeeding: document.getElementById("lastSupplementalFeeding").value.trim(),
-        lastHusbandry: "",
+        lastHusbandry:"",
         customNote: document.getElementById("customNote").value.trim()
       };
 
       updateLastHusbandry(colony);
 
+      const file = document.getElementById("typeImage").files[0];
       if(file){
         const reader = new FileReader();
-        reader.onload = function(e){
+        reader.onload = e => {
           colony.typeImageUri = e.target.result;
           colonies.push(colony);
           saveColonies();
@@ -664,18 +892,22 @@
 
     function openColony(index){
       const c = colonies[index];
+      const knownCats = ["Isopods","Springtails","Millipedes","Beetles", ...uniqueCategories()]
+        .filter((v, i, a) => v && a.indexOf(v) === i);
+
       app(`
-        <h2 class="section-title">${escapeHtml(c.colonyName)}</h2>
-        <p class="subtext">${escapeHtml(c.typeName)}</p>
+        <h2 class="section-title">${esc(c.colonyName)}</h2>
+        <p class="subtext">${esc(c.typeName)}</p>
 
         ${c.typeImageUri ? `<img class="thumb" src="${c.typeImageUri}" alt="">` : ""}
 
         <div class="meta" style="margin-bottom:14px">
+          <div><strong>Category:</strong> ${esc(c.category || "-")}</div>
           <div><strong>Date added:</strong> ${c.dateAdded || "-"}</div>
-          <div><strong>Last husbandry:</strong> ${c.lastHusbandry || "Never"}</div>
+          <div><strong>Last updated:</strong> ${c.lastHusbandry || "Never"}</div>
         </div>
 
-        <div class="actions" style="margin-bottom:16px">
+        <div class="actions" style="margin-bottom:12px">
           <button class="btn btn-primary" onclick="quickAction(${index}, 'misting')">Mark Misted Now</button>
           <button class="btn btn-primary" onclick="quickAction(${index}, 'feeding')">Mark Fed Now</button>
           <button class="btn btn-primary" onclick="quickAction(${index}, 'botanicals')">Mark Botanicals Checked Now</button>
@@ -687,6 +919,20 @@
             <label>Population</label>
             <input id="editPopulation" type="number" min="0" step="1" value="${Number(c.population) || 0}">
           </div>
+          <div>
+            <label>Category</label>
+            <select id="editcategorySelect" onchange="toggleEditCustomCategory()">
+              ${knownCats.map(cat => `<option value="${esc(cat)}" ${c.category===cat?"selected":""}>${esc(cat)}</option>`).join("")}
+              <option value="__custom__" ${!knownCats.includes(c.category) ? "selected" : ""}>Custom</option>
+            </select>
+          </div>
+          <div id="editcustomCategoryWrap" style="${!knownCats.includes(c.category) ? "" : "display:none;"}">
+            <label>Custom Category</label>
+            <input id="editcustomCategory" value="${!knownCats.includes(c.category) ? esc(c.category) : ""}" placeholder="Example: Roaches">
+          </div>
+        </div>
+
+        <div class="form-grid">
           <div>
             <label>Last Misting</label>
             <input id="editMisting" value="${c.lastMisting || ""}" placeholder="mm/dd/yyyy">
@@ -706,7 +952,7 @@
         </div>
 
         <label>Custom Note</label>
-        <textarea id="editNote" placeholder="Any notes for this colony...">${escapeHtml(c.customNote || "")}</textarea>
+        <textarea id="editNote">${esc(c.customNote || "")}</textarea>
 
         <div class="actions">
           <button class="btn btn-primary" onclick="saveColonyEdits(${index})">Save Changes</button>
@@ -716,9 +962,21 @@
       `);
     }
 
+    function toggleEditCustomCategory(){
+      const sel = document.getElementById("editcategorySelect");
+      const wrap = document.getElementById("editcustomCategoryWrap");
+      if(sel && wrap){
+        wrap.style.display = sel.value === "__custom__" ? "block" : "none";
+      }
+    }
+
     function saveColonyEdits(index){
       const c = colonies[index];
+      const category = getChosenCategory("edit");
+      if(!category){ alert("Category is required."); return; }
+
       c.population = Math.max(0, parseInt(document.getElementById("editPopulation").value || "0", 10));
+      c.category = category;
       c.lastMisting = document.getElementById("editMisting").value.trim();
       c.lastBotanicalsCheck = document.getElementById("editBotanicals").value.trim();
       c.lastSubstrateCheck = document.getElementById("editSubstrate").value.trim();
@@ -730,15 +988,13 @@
       alert("Colony updated.");
     }
 
-    function quickAction(index, type){
+    function quickAction(index, action){
       const today = todayString();
       const c = colonies[index];
-
-      if(type === "misting") c.lastMisting = today;
-      if(type === "feeding") c.lastSupplementalFeeding = today;
-      if(type === "botanicals") c.lastBotanicalsCheck = today;
-      if(type === "substrate") c.lastSubstrateCheck = today;
-
+      if(action === "misting") c.lastMisting = today;
+      if(action === "feeding") c.lastSupplementalFeeding = today;
+      if(action === "botanicals") c.lastBotanicalsCheck = today;
+      if(action === "substrate") c.lastSubstrateCheck = today;
       c.lastHusbandry = today;
       saveColonies();
       openColony(index);
@@ -747,82 +1003,38 @@
 
     function deleteColony(index){
       if(confirm("Are you sure you want to delete this colony?")){
-        colonies.splice(index, 1);
+        colonies.splice(index,1);
         saveColonies();
         renderColonies();
       }
     }
 
-    function renderHusbandry(){
-      let sorted = colonies.slice().sort((a,b) => daysSince(b.lastHusbandry) - daysSince(a.lastHusbandry));
-
-      let html = `
-        <h2 class="section-title">Husbandry</h2>
-        <p class="subtext">Oldest checked colonies appear at the top so you can see what needs attention first.</p>
-      `;
-
-      if(!sorted.length){
-        html += `<div class="empty">No colonies yet. Add a colony first to use the husbandry list.</div>`;
-        return app(html);
-      }
-
-      html += `<div class="grid">`;
-      sorted.forEach(colony => {
-        const originalIndex = colonies.findIndex(c => c.colonyName === colony.colonyName);
-        const days = daysSince(colony.lastHusbandry);
-        const status = getStatus(days);
-
-        html += `
-          <div class="card clickable status-${status}" onclick="openColony(${originalIndex})">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">${escapeHtml(colony.colonyName)}</h3>
-                <div class="muted">${escapeHtml(colony.typeName)}</div>
-              </div>
-              <span class="badge ${status}">${statusLabel(days)}</span>
-            </div>
-            <div class="meta">
-              <div><strong>Population:</strong> ${Number(colony.population) || 0}</div>
-              <div><strong>Last husbandry:</strong> ${colony.lastHusbandry || "Never"}</div>
-              <div><strong>Days since checked:</strong> ${colony.lastHusbandry ? days : "N/A"}</div>
-            </div>
-          </div>
-        `;
-      });
-      html += `</div>`;
-
-      app(html);
-    }
-
     function renderPopulation(){
-      let totals = {};
-
+      const totals = {};
       colonies.forEach(c => {
-        const type = c.typeName.trim();
-        if(!type) return;
-        if(!totals[type]) totals[type] = 0;
-        totals[type] += Number(c.population) || 0;
+        const t = (c.typeName || "").trim();
+        if(!t) return;
+        totals[t] = (totals[t] || 0) + (Number(c.population) || 0);
       });
 
       const types = Object.keys(totals).sort((a,b)=>a.localeCompare(b));
-
       let html = `
         <h2 class="section-title">Population</h2>
-        <p class="subtext">View total population by type. Tap a type to see which colonies make up the total.</p>
+        <p class="subtext">View total population by type. Tap a type for the colony breakdown.</p>
       `;
 
       if(!types.length){
-        html += `<div class="empty">No colony types found yet.</div>`;
+        html += `<div class="empty">No population data yet.</div>`;
         return app(html);
       }
 
       html += `<div class="grid">`;
       types.forEach(type => {
         html += `
-          <div class="card clickable" onclick="openPopulationBreakdown('${type.replace(/'/g,"\\'")}')">
-            <div class="card-header">
+          <div class="card clickable" onclick="openPopulationBreakdown('${type.replace(/'/g, "\\'")}')">
+            <div class="card-head">
               <div>
-                <h3 class="card-title">${escapeHtml(type)}</h3>
+                <h3 class="card-title">${esc(type)}</h3>
                 <div class="muted">Combined population</div>
               </div>
               <span class="badge">${totals[type]}</span>
@@ -831,292 +1043,581 @@
         `;
       });
       html += `</div>`;
-
       app(html);
     }
 
     function openPopulationBreakdown(type){
-      const matches = colonies
-        .filter(c => c.typeName === type)
-        .sort((a,b)=> (Number(b.population)||0) - (Number(a.population)||0));
-
-      const total = matches.reduce((sum,c)=>sum + (Number(c.population) || 0), 0);
+      const matches = colonies.filter(c => c.typeName === type).sort((a,b)=>(Number(b.population)||0) - (Number(a.population)||0));
+      const total = matches.reduce((sum,c)=>sum + (Number(c.population)||0), 0);
 
       let html = `
-        <h2 class="section-title">${escapeHtml(type)} — Total ${total}</h2>
+        <h2 class="section-title">${esc(type)} — Total ${total}</h2>
         <p class="subtext">Population breakdown by colony.</p>
-        <div class="actions" style="margin-bottom:16px">
+        <div class="actions" style="margin-bottom:14px">
           <button class="btn" onclick="renderPopulation()">Back</button>
         </div>
         <div class="grid">
       `;
-
       matches.forEach(c => {
         html += `
           <div class="card">
-            <div class="card-header">
+            <div class="card-head">
               <div>
-                <h3 class="card-title">${escapeHtml(c.colonyName)}</h3>
-                <div class="muted">${escapeHtml(c.typeName)}</div>
+                <h3 class="card-title">${esc(c.colonyName)}</h3>
+                <div class="muted">${esc(c.category || "")}</div>
               </div>
-              <span class="badge">${Number(c.population)||0}</span>
+              <span class="badge">${Number(c.population) || 0}</span>
             </div>
             <div class="meta">
-              <div><strong>Last husbandry:</strong> ${c.lastHusbandry || "Never"}</div>
+              <div><strong>Last updated:</strong> ${c.lastHusbandry || "Never"}</div>
             </div>
           </div>
         `;
       });
-
       html += `</div>`;
       app(html);
     }
 
-    function renderPriceSheet(){
-      const types = uniqueTypes();
-
+    function renderBotanicals(){
       let html = `
-        <h2 class="section-title">Price Sheet</h2>
-        <p class="subtext">Create a branded price sheet from the colony types already in your collection.</p>
-        <p class="top-note">For this web version, the preview is live and can be printed or screenshotted. If you want, I can add a one-click downloadable image export next.</p>
+        <h2 class="section-title">Botanicals</h2>
+        <p class="subtext">Track supply items like soil, moss, bark, sticks, pods, shell, and other inventory.</p>
+        <div class="toolbar">
+          <button class="btn btn-primary" onclick="showAddBotanicalForm()">+ Add Botanical Item</button>
+        </div>
+      `;
+
+      if(!botanicals.length){
+        html += `<div class="empty">No botanicals added yet.</div>`;
+        return app(html);
+      }
+
+      html += `<div class="grid">`;
+      botanicals.slice().sort((a,b)=>a.itemName.localeCompare(b.itemName)).forEach(item => {
+        const realIndex = botanicals.findIndex(x => x.itemName === item.itemName);
+        html += `
+          <div class="card clickable" onclick="openBotanical(${realIndex})">
+            <div class="card-head">
+              <div>
+                <h3 class="card-title">${esc(item.itemName)}</h3>
+                <div class="muted">Inventory item</div>
+              </div>
+              <span class="badge">${esc(item.quantity || "—")}</span>
+            </div>
+            <div class="meta">
+              <div><strong>Quantity:</strong> ${esc(item.quantity || "-")}</div>
+              <div><strong>Note:</strong> ${esc(item.note || "-")}</div>
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      app(html);
+    }
+
+    function showAddBotanicalForm(){
+      app(`
+        <h2 class="section-title">Add Botanical Item</h2>
+        <p class="subtext">Example items: Lotus Pods, Cork Bark, Soil Mix, Leaf Litter, Moss, Cholla Wood.</p>
 
         <div class="form-grid">
           <div>
-            <label>Business Name</label>
-            <input id="businessName" value="${escapeHtml(settings.businessName || "")}" placeholder="Business Name">
+            <label>Item Name</label>
+            <input id="botItemName" placeholder="Lotus Pods">
           </div>
           <div>
-            <label>Theme</label>
-            <select id="themeSelect">
-              <option value="botanical" ${settings.theme === "botanical" ? "selected" : ""}>Botanical</option>
-              <option value="dark" ${settings.theme === "dark" ? "selected" : ""}>Dark Premium</option>
-              <option value="light" ${settings.theme === "light" ? "selected" : ""}>Clean Light</option>
-            </select>
+            <label>Quantity</label>
+            <input id="botQuantity" placeholder="20 packs, 3 bins, 10 lb">
           </div>
         </div>
 
-        <label>Upload Logo</label>
-        <input id="logoUpload" type="file" accept="image/*">
+        <label>Item Note</label>
+        <textarea id="botNote" placeholder="Any notes about this item..."></textarea>
 
-        <div style="margin-top:16px">
+        <div class="actions">
+          <button class="btn btn-primary" onclick="saveNewBotanical()">Save Item</button>
+          <button class="btn" onclick="renderBotanicals()">Cancel</button>
+        </div>
+      `);
+    }
+
+    function saveNewBotanical(){
+      const itemName = document.getElementById("botItemName").value.trim();
+      if(!itemName){ alert("Item name is required."); return; }
+      if(botanicals.some(b => b.itemName.toLowerCase() === itemName.toLowerCase())){
+        alert("Botanical item name already exists. Please use a different name.");
+        return;
+      }
+
+      const item = {
+        itemName,
+        quantity: document.getElementById("botQuantity").value.trim(),
+        note: document.getElementById("botNote").value.trim()
+      };
+
+      botanicals.push(item);
+
+      if(!botanicalPriceData[itemName]){
+        botanicalPriceData[itemName] = {
+          included: true,
+          section: "Botanicals",
+          price: "",
+          priceNote: ""
+        };
+      }
+
+      saveBotanicals();
+      saveBotanicalPrices();
+      renderBotanicals();
+    }
+
+    function openBotanical(index){
+      const item = botanicals[index];
+      app(`
+        <h2 class="section-title">${esc(item.itemName)}</h2>
+        <p class="subtext">Update quantity and notes any time.</p>
+
+        <div class="form-grid">
+          <div>
+            <label>Quantity</label>
+            <input id="editBotQuantity" value="${esc(item.quantity || "")}" placeholder="20 packs">
+          </div>
+        </div>
+
+        <label>Item Note</label>
+        <textarea id="editBotNote">${esc(item.note || "")}</textarea>
+
+        <div class="actions">
+          <button class="btn btn-primary" onclick="saveBotanicalEdits(${index})">Save Changes</button>
+          <button class="btn" onclick="renderBotanicals()">Back</button>
+          <button class="btn btn-danger" onclick="deleteBotanical(${index})">Delete Item</button>
+        </div>
+      `);
+    }
+
+    function saveBotanicalEdits(index){
+      const item = botanicals[index];
+      item.quantity = document.getElementById("editBotQuantity").value.trim();
+      item.note = document.getElementById("editBotNote").value.trim();
+      saveBotanicals();
+      openBotanical(index);
+      alert("Botanical item updated.");
+    }
+
+    function deleteBotanical(index){
+      const itemName = botanicals[index].itemName;
+      if(confirm("Delete this botanical item?")){
+        botanicals.splice(index,1);
+        delete botanicalPriceData[itemName];
+        saveBotanicals();
+        saveBotanicalPrices();
+        renderBotanicals();
+      }
+    }
+
+    function addSection(){
+      const input = document.getElementById("newSectionName");
+      const name = (input?.value || "").trim();
+      if(!name) return;
+      if(priceSections.includes(name)){
+        alert("That section already exists.");
+        return;
+      }
+      priceSections.push(name);
+      saveSections();
+      renderPriceSheet();
+    }
+
+    function deleteSection(name){
+      if(["Botanicals"].includes(name)){
+        alert("Botanicals section cannot be removed.");
+        return;
+      }
+      priceSections = priceSections.filter(s => s !== name);
+      Object.keys(priceData).forEach(k => {
+        if(priceData[k]?.section === name) priceData[k].section = "";
+      });
+      Object.keys(botanicalPriceData).forEach(k => {
+        if(botanicalPriceData[k]?.section === name) botanicalPriceData[k].section = "Botanicals";
+      });
+      saveSections();
+      savePrices();
+      saveBotanicalPrices();
+      renderPriceSheet();
+    }
+
+    function renderPriceSheet(){
+      const colonyTypes = uniqueTypes();
+      const allSectionOptions = [...new Set([...priceSections, ...uniqueCategories(), "Botanicals"])].filter(Boolean);
+
+      let html = `
+        <h2 class="section-title">Price Sheet</h2>
+        <p class="subtext">Choose exactly which colony types and botanicals appear, and organize them into clean sections.</p>
+        <p class="info-note">Blank price automatically shows as Not Available.</p>
+
+        <div class="section-manager">
+          <h3 style="margin:0 0 10px;">Price Sheet Sections</h3>
+          <div style="margin-bottom:10px;">
+            ${allSectionOptions.map(s => `
+              <span class="section-chip">
+                ${esc(s)}
+                ${s !== "Botanicals" ? `<button class="mini-btn" onclick="deleteSection('${String(s).replace(/'/g,"\\'")}')">✕</button>` : ""}
+              </span>
+            `).join("")}
+          </div>
+          <div class="actions">
+            <input id="newSectionName" placeholder="Add new section like Exotic or Mid Tier" style="max-width:320px;">
+            <button class="btn btn-primary" onclick="addSection()">Add Section</button>
+          </div>
+        </div>
+
+        <div class="split">
+          <div>
+            <label>Business Name</label>
+            <input id="businessName" value="${esc(settings.businessName || "")}" placeholder="Crested Critters">
+
+            <label>Tagline</label>
+            <input id="tagline" value="${esc(settings.tagline || "")}" placeholder="Isopods & Botanicals">
+
+            <label>Theme</label>
+            <select id="themeSelect">
+              <option value="botanical" ${settings.theme === "botanical" ? "selected" : ""}>Botanical Premium</option>
+              <option value="parchment" ${settings.theme === "parchment" ? "selected" : ""}>Parchment Expo</option>
+              <option value="luxe" ${settings.theme === "luxe" ? "selected" : ""}>Dark Luxe</option>
+            </select>
+
+            <label>Logo Upload</label>
+            <input id="logoUpload" type="file" accept="image/*">
+          </div>
+
+          <div>
+            <label>Promo Banner Text</label>
+            <input id="promoText" value="${esc(settings.promoText || "BUY ANY 2 ISOPODS — GET $5 OFF")}" placeholder="BUY ANY 2 ISOPODS — GET $5 OFF">
+
+            <label>Footer Note</label>
+            <input id="footerNote" value="${esc(settings.footerNote || "*Availability may vary*")}" placeholder="*Availability may vary*">
+          </div>
+        </div>
       `;
 
-      if(!types.length){
-        html += `<div class="empty">No colony types found yet. Add colonies first and the price sheet will auto-populate.</div>`;
+      html += `<div style="margin-top:22px;"><h3 style="margin:0 0 10px;">Colony Types</h3>`;
+      if(!colonyTypes.length){
+        html += `<div class="empty">No colony types yet. Add colonies to build your sheet.</div>`;
       } else {
-        types.forEach(type => {
-          const existing = priceData[type] || { price:"", countLabel:"" };
+        colonyTypes.forEach(type => {
+          const exampleColony = colonies.find(c => c.typeName === type);
+          const defaultSection = exampleColony?.category || "";
+          const row = priceData[type] || {
+            included: true,
+            section: defaultSection,
+            price: "",
+            countLabel: "10ct"
+          };
+
           html += `
-            <div class="type-row">
-              <div>
-                <label>${escapeHtml(type)}</label>
-                <input value="${escapeHtml(type)}" disabled>
+            <div class="price-builder-row">
+              <div class="checkbox-row">
+                <input type="checkbox" id="include_${slug(type)}" ${row.included !== false ? "checked" : ""}>
+                <strong>${esc(type)}</strong>
+                <span class="muted">(${esc(exampleColony?.category || "Uncategorized")})</span>
               </div>
-              <div>
-                <label>Price</label>
-                <input id="price_${slug(type)}" placeholder="$25" value="${escapeHtml(existing.price || "")}">
-              </div>
-              <div>
-                <label>Count</label>
-                <input id="count_${slug(type)}" placeholder="10ct" value="${escapeHtml(existing.countLabel || "")}">
+
+              <div class="form-grid">
+                <div>
+                  <label>Section</label>
+                  <select id="section_${slug(type)}">
+                    <option value="">-- Select Section --</option>
+                    ${allSectionOptions.map(s => `<option value="${esc(s)}" ${row.section===s?"selected":""}>${esc(s)}</option>`).join("")}
+                  </select>
+                </div>
+                <div>
+                  <label>Count / Note</label>
+                  <input id="count_${slug(type)}" value="${esc(row.countLabel || "")}" placeholder="10ct">
+                </div>
+                <div>
+                  <label>Price</label>
+                  <input id="price_${slug(type)}" value="${esc(row.price || "")}" placeholder="$25">
+                </div>
               </div>
             </div>
           `;
         });
       }
+      html += `</div>`;
+
+      html += `<div style="margin-top:22px;"><h3 style="margin:0 0 10px;">Botanicals</h3>`;
+      if(!botanicals.length){
+        html += `<div class="empty">No botanical items yet. Add botanicals and they will appear here automatically.</div>`;
+      } else {
+        botanicals.slice().sort((a,b)=>a.itemName.localeCompare(b.itemName)).forEach(item => {
+          const row = botanicalPriceData[item.itemName] || {
+            included: true,
+            section: "Botanicals",
+            price: "",
+            priceNote: ""
+          };
+
+          html += `
+            <div class="price-builder-row">
+              <div class="checkbox-row">
+                <input type="checkbox" id="botinclude_${slug(item.itemName)}" ${row.included !== false ? "checked" : ""}>
+                <strong>${esc(item.itemName)}</strong>
+              </div>
+
+              <div class="form-grid">
+                <div>
+                  <label>Section</label>
+                  <select id="botsection_${slug(item.itemName)}">
+                    ${allSectionOptions.map(s => `<option value="${esc(s)}" ${((row.section||"Botanicals")===s)?"selected":""}>${esc(s)}</option>`).join("")}
+                  </select>
+                </div>
+                <div>
+                  <label>Note</label>
+                  <input id="botnote_${slug(item.itemName)}" value="${esc(row.priceNote || "")}" placeholder="1 gallon, 5 pods, 2 lb">
+                </div>
+                <div>
+                  <label>Price</label>
+                  <input id="botprice_${slug(item.itemName)}" value="${esc(row.price || "")}" placeholder="$10">
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      }
+      html += `</div>`;
 
       html += `
-        </div>
-
         <div class="actions">
-          <button class="btn btn-primary" onclick="savePriceSheetSettings()">Save Price Sheet</button>
-          <button class="btn" onclick="printPriceSheet()">Print / Save PDF</button>
+          <button class="btn btn-primary" onclick="savePriceSheetSettings()">Save Sheet Settings</button>
+          <button class="btn btn-primary" onclick="exportPriceSheetImage()">Export Price Sheet Image</button>
         </div>
 
-        <div id="pricePreviewWrap"></div>
+        <div class="sheet-wrap">
+          <div id="priceSheetPreviewMount"></div>
+        </div>
       `;
 
       app(html);
-      renderPricePreview();
-    }
-
-    function slug(str){
-      return str.toLowerCase().replace(/[^a-z0-9]+/g, "_");
+      renderPriceSheetPreview();
     }
 
     function savePriceSheetSettings(){
       settings.businessName = document.getElementById("businessName").value.trim() || "IsoTrack";
+      settings.tagline = document.getElementById("tagline").value.trim() || "";
       settings.theme = document.getElementById("themeSelect").value;
+      settings.promoText = document.getElementById("promoText").value.trim();
+      settings.footerNote = document.getElementById("footerNote").value.trim();
 
       uniqueTypes().forEach(type => {
+        const existing = priceData[type] || {};
         priceData[type] = {
+          ...existing,
+          included: document.getElementById(`include_${slug(type)}`)?.checked ?? true,
+          section: document.getElementById(`section_${slug(type)}`)?.value.trim() || "",
           price: document.getElementById(`price_${slug(type)}`)?.value.trim() || "",
           countLabel: document.getElementById(`count_${slug(type)}`)?.value.trim() || ""
         };
       });
 
+      botanicals.forEach(item => {
+        const existing = botanicalPriceData[item.itemName] || {};
+        botanicalPriceData[item.itemName] = {
+          ...existing,
+          included: document.getElementById(`botinclude_${slug(item.itemName)}`)?.checked ?? true,
+          section: document.getElementById(`botsection_${slug(item.itemName)}`)?.value.trim() || "Botanicals",
+          price: document.getElementById(`botprice_${slug(item.itemName)}`)?.value.trim() || "",
+          priceNote: document.getElementById(`botnote_${slug(item.itemName)}`)?.value.trim() || ""
+        };
+      });
+
       const file = document.getElementById("logoUpload").files[0];
 
-      function finishSave(){
+      function finish(){
         saveSettings();
         savePrices();
+        saveBotanicalPrices();
         renderPriceSheet();
         alert("Price sheet settings saved.");
       }
 
       if(file){
         const reader = new FileReader();
-        reader.onload = function(e){
+        reader.onload = e => {
           settings.logoUri = e.target.result;
-          finishSave();
+          finish();
         };
         reader.readAsDataURL(file);
       } else {
-        finishSave();
+        finish();
       }
     }
 
-    function renderPricePreview(){
-      const wrap = document.getElementById("pricePreviewWrap");
-      if(!wrap) return;
+    function buildSheetSections(){
+      const sections = {};
 
-      const themeStyles = {
-        botanical: {
-          headBg: "linear-gradient(135deg, rgba(212,168,79,.22), rgba(66,102,68,.12))",
-          bodyBg: "linear-gradient(180deg, #101722, #1b2635)"
-        },
-        dark: {
-          headBg: "linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.03))",
-          bodyBg: "linear-gradient(180deg, #0f141b, #171d26)"
-        },
-        light: {
-          headBg: "linear-gradient(135deg, rgba(212,168,79,.22), rgba(255,255,255,.85))",
-          bodyBg: "linear-gradient(180deg, #f7f5ef, #ece8dd)"
-        }
-      };
+      uniqueTypes().forEach(type => {
+        const row = priceData[type];
+        if(!row || row.included === false) return;
+        const section = row.section || colonies.find(c => c.typeName === type)?.category || "Other";
+        if(!sections[section]) sections[section] = [];
+        sections[section].push({
+          name: type,
+          note: row.countLabel || "",
+          price: row.price || "Not Available"
+        });
+      });
 
-      const types = uniqueTypes();
-      const theme = themeStyles[settings.theme] || themeStyles.botanical;
-      const lightMode = settings.theme === "light";
+      botanicals.forEach(item => {
+        const row = botanicalPriceData[item.itemName];
+        if(!row || row.included === false) return;
+        const section = row.section || "Botanicals";
+        if(!sections[section]) sections[section] = [];
+        sections[section].push({
+          name: item.itemName,
+          note: row.priceNote || "",
+          price: row.price || "Not Available"
+        });
+      });
 
-      let items = types.map(type => {
-        const row = priceData[type] || {};
-        return `
-          <div class="price-item" style="${lightMode ? "color:#1f2937;border-bottom:1px solid rgba(0,0,0,.08)" : ""}">
-            <div>
-              <div style="font-weight:700">${escapeHtml(type)}</div>
-              <div class="muted" style="${lightMode ? "color:#5b6470" : ""}">${escapeHtml(row.countLabel || "")}</div>
-            </div>
-            <div style="font-weight:800">${escapeHtml(row.price || "")}</div>
+      Object.keys(sections).forEach(k => {
+        sections[k].sort((a,b)=>a.name.localeCompare(b.name));
+      });
+
+      return sections;
+    }
+
+    function renderPriceSheetPreview(){
+      const mount = document.getElementById("priceSheetPreviewMount");
+      if(!mount) return;
+
+      const sections = buildSheetSections();
+      const orderedKeys = [...new Set([...priceSections, ...Object.keys(sections)])].filter(k => sections[k] && sections[k].length);
+
+      const themeClass = {
+        botanical: "theme-botanical",
+        parchment: "theme-parchment",
+        luxe: "theme-luxe"
+      }[settings.theme] || "theme-botanical";
+
+      const logoHtml = settings.logoUri ? `<img class="sheet-logo" src="${settings.logoUri}" alt="">` : "";
+
+      const renderRows = rows => rows.map(row => `
+        <div class="sheet-row">
+          <div>${esc(row.name)}</div>
+          <div class="center">${esc(row.note || "")}</div>
+          <div class="right">${esc(row.price || "Not Available")}</div>
+        </div>
+      `).join("");
+
+      mount.innerHTML = `
+        <div class="sheet ${themeClass}" id="exportSheet">
+          <div class="sheet-header">
+            ${logoHtml}
+            <h1 class="sheet-title">${esc(settings.businessName || "IsoTrack")}</h1>
+            <div class="sheet-sub">${esc(settings.tagline || "Price Sheet")}</div>
           </div>
-        `;
-      }).join("");
 
-      wrap.innerHTML = `
-        <div class="preview-sheet" id="printablePriceSheet" style="${lightMode ? "background:#f8f5ee;color:#1f2937" : ""}">
-          <div class="preview-head" style="background:${theme.headBg};${lightMode ? "border-bottom:1px solid rgba(0,0,0,.08)" : ""}">
-            ${settings.logoUri ? `<img class="preview-logo" src="${settings.logoUri}" alt="">` : ""}
-            <h2 style="${lightMode ? "color:#1c2430" : ""}">${escapeHtml(settings.businessName || "IsoTrack")}</h2>
-            <p style="${lightMode ? "color:#4b5563" : ""}">Price Sheet</p>
+          ${settings.promoText ? `<div class="sheet-banner">${esc(settings.promoText)}</div>` : ""}
+
+          <div class="sheet-body">
+            ${orderedKeys.map(section => `
+              <div class="sheet-section">
+                <div class="sheet-section-title">${esc(section)}</div>
+                <div class="sheet-table">
+                  ${renderRows(sections[section])}
+                </div>
+              </div>
+            `).join("") || `<div class="empty" style="background:transparent;border-style:dashed">Add included items to see your sheet preview.</div>`}
           </div>
-          <div class="preview-body" style="background:${theme.bodyBg}">
-            ${items || `<div class="muted">No types added yet.</div>`}
-          </div>
+
+          ${settings.footerNote ? `<div class="sheet-footer">${esc(settings.footerNote)}</div>` : ""}
         </div>
       `;
     }
 
-    function printPriceSheet(){
-      const sheet = document.getElementById("printablePriceSheet");
-      if(!sheet){
-        alert("No price sheet preview found.");
+    async function exportPriceSheetImage(){
+      const el = document.getElementById("exportSheet");
+      if(!el){
+        alert("No price sheet found to export.");
         return;
       }
 
-      const w = window.open("", "_blank");
-      w.document.write(`
-        <html>
-          <head>
-            <title>Price Sheet</title>
-            <style>
-              body{font-family:Arial,sans-serif;padding:20px;background:#fff}
-            </style>
-          </head>
-          <body>${sheet.outerHTML}</body>
-        </html>
-      `);
-      w.document.close();
-      w.focus();
-      w.print();
+      try{
+        const canvas = await html2canvas(el, {
+          backgroundColor: null,
+          scale: 2,
+          useCORS: true
+        });
+
+        const link = document.createElement("a");
+        link.download = "isotrack-price-sheet.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      } catch(err){
+        alert("Image export failed.");
+      }
     }
 
     function loadDemoData(){
       colonies = [
-        {
-          colonyName:"Red Panda Bin 1",
-          typeName:"Red Panda",
-          typeImageUri:"",
-          dateAdded:"03/15/2026",
-          population:300,
-          lastMisting:"04/03/2026",
-          lastBotanicalsCheck:"04/01/2026",
-          lastSubstrateCheck:"03/28/2026",
-          lastSupplementalFeeding:"04/05/2026",
-          lastHusbandry:"04/05/2026",
-          customNote:"Breeding well."
-        },
-        {
-          colonyName:"Red Panda Bin 2",
-          typeName:"Red Panda",
-          typeImageUri:"",
-          dateAdded:"02/20/2026",
-          population:250,
-          lastMisting:"03/29/2026",
-          lastBotanicalsCheck:"03/26/2026",
-          lastSubstrateCheck:"03/20/2026",
-          lastSupplementalFeeding:"03/30/2026",
-          lastHusbandry:"03/30/2026",
-          customNote:"Keep moisture up."
-        },
-        {
-          colonyName:"Dairy Cow Bin A",
-          typeName:"Dairy Cow",
-          typeImageUri:"",
-          dateAdded:"01/10/2026",
-          population:500,
-          lastMisting:"04/07/2026",
-          lastBotanicalsCheck:"04/06/2026",
-          lastSubstrateCheck:"03/31/2026",
-          lastSupplementalFeeding:"04/07/2026",
-          lastHusbandry:"04/07/2026",
-          customNote:"Fast colony."
-        },
-        {
-          colonyName:"Rubber Ducky Project",
-          typeName:"Rubber Ducky",
-          typeImageUri:"",
-          dateAdded:"12/22/2025",
-          population:40,
-          lastMisting:"03/21/2026",
-          lastBotanicalsCheck:"03/18/2026",
-          lastSubstrateCheck:"03/12/2026",
-          lastSupplementalFeeding:"03/19/2026",
-          lastHusbandry:"03/21/2026",
-          customNote:"Needs careful monitoring."
-        }
+        { colonyName:"Red Panda Bin 1", typeName:"Red Panda", category:"Isopods", typeImageUri:"", dateAdded:"03/15/2026", population:300, lastMisting:"04/03/2026", lastBotanicalsCheck:"04/01/2026", lastSubstrateCheck:"03/28/2026", lastSupplementalFeeding:"04/05/2026", lastHusbandry:"04/05/2026", customNote:"Breeding well." },
+        { colonyName:"Rubber Ducky Project", typeName:"Rubber Ducky", category:"Isopods", typeImageUri:"", dateAdded:"12/22/2025", population:40, lastMisting:"03/21/2026", lastBotanicalsCheck:"03/18/2026", lastSubstrateCheck:"03/12/2026", lastSupplementalFeeding:"03/19/2026", lastHusbandry:"03/21/2026", customNote:"Needs careful monitoring." },
+        { colonyName:"Temperate Springtails Main", typeName:"Temperate Springtails", category:"Springtails", typeImageUri:"", dateAdded:"03/11/2026", population:1200, lastMisting:"04/06/2026", lastBotanicalsCheck:"04/06/2026", lastSubstrateCheck:"04/01/2026", lastSupplementalFeeding:"04/06/2026", lastHusbandry:"04/06/2026", customNote:"Great production." },
+        { colonyName:"Ivory Millipede Group", typeName:"Ivory Millipede", category:"Millipedes", typeImageUri:"", dateAdded:"02/28/2026", population:18, lastMisting:"04/01/2026", lastBotanicalsCheck:"03/30/2026", lastSubstrateCheck:"03/26/2026", lastSupplementalFeeding:"04/02/2026", lastHusbandry:"04/02/2026", customNote:"Juveniles and adults mixed." }
       ];
-      saveColonies();
+
+      botanicals = [
+        { itemName:"Leaf Litter", quantity:"12 bags", note:"Oak and mixed hardwood." },
+        { itemName:"Lotus Pods", quantity:"35", note:"Medium size." },
+        { itemName:"Cork Bark", quantity:"18 pieces", note:"Mixed flats and rounds." },
+        { itemName:"Moss", quantity:"8 bags", note:"Good for humid species." }
+      ];
+
+      priceSections = ["Exotic","Mid Tier","Beginner","Springtails","Millipedes","Botanicals"];
+
+      priceData = {
+        "Red Panda": { included:true, section:"Mid Tier", price:"$30", countLabel:"10ct" },
+        "Rubber Ducky": { included:true, section:"Exotic", price:"", countLabel:"6ct" },
+        "Temperate Springtails": { included:true, section:"Springtails", price:"$15", countLabel:"8oz cup" },
+        "Ivory Millipede": { included:true, section:"Millipedes", price:"$25", countLabel:"pair" }
+      };
+
+      botanicalPriceData = {
+        "Leaf Litter": { included:true, section:"Botanicals", price:"$10", priceNote:"1 gallon" },
+        "Lotus Pods": { included:true, section:"Botanicals", price:"$10", priceNote:"5 pods" },
+        "Cork Bark": { included:true, section:"Botanicals", price:"$12", priceNote:"per piece" },
+        "Moss": { included:false, section:"Botanicals", price:"$8", priceNote:"1 bag" }
+      };
+
+      settings = {
+        businessName:"Crested Critters",
+        logoUri:"",
+        theme:"botanical",
+        tagline:"Isopods & Botanicals",
+        promoText:"BUY ANY 2 ISOPODS — GET $5 OFF",
+        footerNote:"*Availability may vary*"
+      };
+
+      saveAll();
       renderColonies();
     }
 
     function clearAllData(){
-      if(confirm("Clear all colony data, settings, and price sheet info?")){
+      if(confirm("Clear all colony, botanical, and price sheet data?")){
         colonies = [];
-        settings = { businessName:"Crested Critters", logoUri:"", theme:"botanical" };
+        botanicals = [];
+        settings = {
+          businessName:"Crested Critters",
+          logoUri:"",
+          theme:"botanical",
+          tagline:"Isopods & Botanicals",
+          promoText:"BUY ANY 2 ISOPODS — GET $5 OFF",
+          footerNote:"*Availability may vary*"
+        };
         priceData = {};
-        saveColonies();
-        saveSettings();
-        savePrices();
+        botanicalPriceData = {};
+        priceSections = ["Isopods","Springtails","Millipedes","Beetles","Botanicals","Exotic","Mid Tier","Beginner"];
+        saveAll();
         renderColonies();
       }
     }
